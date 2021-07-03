@@ -1,0 +1,61 @@
+version: "3"
+    
+services:
+    webserver:
+        build: 
+          context: .
+          dockerfile: ./dockerfiles/nginx/Dockerfile
+        image: corvusapp/nginx
+        container_name: webserver
+        volumes: 
+          - ./:/var/www
+          - ./dockerfiles/nginx/sites/:/etc/nginx/conf.d/
+        ports:
+          - "80:80"
+          - "443:443"  
+        tty: true
+        networks:    
+          - app-network              
+    webapp:
+        build:
+            context: .
+            dockerfile: ./dockerfiles/app/Dockerfile
+        image: corvusapp/php
+        container_name: webapp
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www/
+        networks:
+            - app-network
+        depends_on:
+            - db 
+    db:
+        image: mysql:5.7
+        volumes:
+          - dbdata:/var/lib/mysql
+        restart: always
+        ports:
+          - 3306:3306              
+        environment:
+            MYSQL_ROOT_PASSWORD: passme
+            MYSQL_DATABASE: corvusapp
+            MYSQL_USER: corvusapp
+            MYSQL_PASSWORD: passme
+        networks:
+        - app-network       
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+        - 8080:8080
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local      
