@@ -4,12 +4,9 @@ namespace Corvus\Core;
 
 class Application
 {
-
     public $router;
     protected $response;
 
-    public function __construct() {}    
- 
     public function router(\League\Route\Router $router){
         $this->router = $router;
     }
@@ -21,7 +18,6 @@ class Application
 
     public function run()
     {
-        (new \Zend\HttpHandlerRunner\Emitter\SapiEmitter)->emit($this->response);        
+        (new \Laminas\HttpHandlerRunner\Emitter\SapiEmitter)->emit($this->response);        
     }
-
 }

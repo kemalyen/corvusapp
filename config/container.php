@@ -4,6 +4,7 @@ use Psr\Container\ContainerInterface;
 $definitions = [];
 
 $definitions = array_merge(
+        require 'config/env.php',
         require 'config/doctrine.php',
         require 'config/core.php');
  

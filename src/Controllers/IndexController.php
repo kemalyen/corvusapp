@@ -10,7 +10,7 @@ class IndexController extends BaseController
 {
    public function index(ServerRequestInterface $request): JsonResponse
     {
-        $data = ['name' =>'Kemal'];
+        $data = ['time' => time()];
         return $this->view($data);
     }
 }

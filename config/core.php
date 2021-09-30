@@ -9,8 +9,8 @@ return [
         return new Corvus\Core\Application();
     },
 
-    'Corvus\Middlewares\AuthMiddleware' => function () {
-        return new Corvus\Middlewares\AuthMiddleware('!secReT$123*', 'jwt');
+    'Corvus\Middlewares\AuthMiddleware' => function (ContainerInterface $c) {
+        return new Corvus\Middlewares\AuthMiddleware($c->get('JWT_SECRET'), $c->get('JWT_TOKEN_KEY'));
     },
  
     Psr\Log\LoggerInterface::class => DI\factory(function () {

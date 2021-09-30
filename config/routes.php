@@ -13,16 +13,16 @@ return function (Corvus\Core\Application $app, DI\Container $container): void {
                 $container->get('Corvus\Middlewares\AuthPayloadMiddleware'),
             ]);
 
-    $app->router->group('/orders', function (\League\Route\RouteGroup $route) use($app) {
+    $app->router->group('/orders', function (\League\Route\RouteGroup $route) use ($app) {
         $app->router->map('GET', '/orders/list', 'Corvus\Controllers\OrderController::index');
         $app->router->map('POST', '/orders/create', 'Corvus\Controllers\OrderController::create');
         $app->router->map('GET', '/orders/{id}/show', 'Corvus\Controllers\OrderController::show');
     })
-          ->middlewares(
+        ->middlewares(
             [
                 $container->get('Corvus\Middlewares\AuthMiddleware'),
                 $container->get('Corvus\Middlewares\AuthPayloadMiddleware'),
-            ]);  
+            ]);
 
     $app->router->group('/products', function (\League\Route\RouteGroup $route) use ($app) {
         $app->router->map('GET', '/products/list', 'Corvus\Controllers\ProductController::index');
