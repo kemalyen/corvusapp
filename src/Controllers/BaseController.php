@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Corvus\Controller;
+namespace Corvus\Controllers;
 
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\HtmlResponse;

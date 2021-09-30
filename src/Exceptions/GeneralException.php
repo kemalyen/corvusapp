@@ -1,4 +1,4 @@
-<?php namespace Corvus\Exception;
+<?php namespace Corvus\Exceptions;
 
 use Throwable;
 use Exception;

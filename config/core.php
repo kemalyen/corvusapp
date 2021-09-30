@@ -9,21 +9,9 @@ return [
         return new Corvus\Core\Application();
     },
 
-    'Corvus\Middleware\AuthMiddleware' => function () {
-        return new Corvus\Middleware\AuthMiddleware('!secReT$123*', 'jwt');
+    'Corvus\Middlewares\AuthMiddleware' => function () {
+        return new Corvus\Middlewares\AuthMiddleware('!secReT$123*', 'jwt');
     },
-    
-
-    Twig\Environment::class => function (ContainerInterface $c) {
-        $loader = new Twig\Loader\FilesystemLoader(__DIR__ . "/../templates");
-        $twig = new Twig\Environment($loader, [
-            __DIR__ . '/../var/cache'
-        ]);
-        $twig->enableDebug();
-        $twig->addExtension(new \Twig\Extension\DebugExtension());
-        return $twig;
-    },    
-
  
     Psr\Log\LoggerInterface::class => DI\factory(function () {
         $logger = new Logger('mylog');

@@ -1,13 +1,18 @@
 <?php
-namespace Corvus\Entity;
+namespace Corvus\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Corvus\Exceptions\UniqueUserEmailException;
+use Doctrine\ORM\HasLifecycleCallbacks;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="users",uniqueConstraints={@ORM\UniqueConstraint(name="unique_email", columns={"email"}, options={"where": "(((id IS NOT NULL) AND (email IS NULL))"})})
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="users",uniqueConstraints={@ORM\UniqueConstraint(name="unique_email", fields={"email"})})
  */
 class User
 {
@@ -19,7 +24,7 @@ class User
     protected $id;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      * @Assert\Email
      */
     protected $email;
@@ -74,4 +79,17 @@ class User
 
         return $this;
     }
+
+    /**
+    * @Orm\PrePersist @Orm\PreUpdate
+     */
+    public function assertUniqueUserEmail(LifecycleEventArgs $eventArgs) {
+
+        $entity = $eventArgs->getEntity();
+        $em = $eventArgs->getEntityManager();
+        $user = $em->getRepository(User::class)->findBy(['email' => $this->email]);
+        if($user){
+            throw new UniqueUserEmailException('user email must be unique: '. $this->email);
+        }
+    }    
 }

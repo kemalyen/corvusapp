@@ -1,31 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace Corvus\Middleware;
+namespace Corvus\Middlewares;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\RedirectResponse;
-use PsrJwt\Auth\Authorise;
-use PsrJwt\JwtAuthMiddleware;
-use Nyholm\Psr7\Response;
+use PsrJwt\Helper\Request;
 
-class AuthMiddleware extends Authorise implements MiddlewareInterface
+class AuthPayloadMiddleware implements MiddlewareInterface
 {
-    public function __construct(string $secret, string $tokenKey)
-    {
-        parent::__construct($secret, $tokenKey);
-    }
-
     /**
      * {@inheritdoc}
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        $auth = $this->authorise($request);
-        $request = $request->withAttribute('auth', $auth);
+        $helper = new Request();
+        $payload = $helper->getTokenPayload($request, 'jwt');
+        if ($payload){
+            $request = $request->withAttribute('payload', $payload);
+        }
         $response = $handler->handle($request);
-        return $response;  
+        return $response;
     }
 }

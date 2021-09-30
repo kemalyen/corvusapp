@@ -1,10 +1,10 @@
 <?php
 
-namespace Corvus\Repository;
+namespace Corvus\Repositories;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Corvus\Entity\Product;
+use Corvus\Entities\Product;
 
 class ProductRepository 
 {
