@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 use PsrJwt\Helper\Request;
 
 class AuthPayloadMiddleware implements MiddlewareInterface
@@ -18,6 +18,7 @@ class AuthPayloadMiddleware implements MiddlewareInterface
     {
         $helper = new Request();
         $payload = $helper->getTokenPayload($request, 'jwt');
+        
         if ($payload){
             $request = $request->withAttribute('payload', $payload);
         }

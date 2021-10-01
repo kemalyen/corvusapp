@@ -3,7 +3,7 @@
 namespace Corvus\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 
 class IndexController extends BaseController

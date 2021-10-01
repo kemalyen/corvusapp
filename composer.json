@@ -26,7 +26,8 @@
         "symfony/cache": "^5.3",
         "laminas/laminas-diactoros": "^2.8",
         "vlucas/phpdotenv": "^5.3",
-        "laminas/laminas-httphandlerrunner": "^2.1"
+        "laminas/laminas-httphandlerrunner": "^2.1",
+        "guzzlehttp/guzzle": "^7.3"
     },
     "autoload": {
         "psr-4": {
@@ -34,5 +35,8 @@
             "Corvus\\Core\\": "src/Core",
             "Corvus\\Catalogue\\": "src/Modules/Catalogue"
         }
-    }    
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
 }

@@ -12,7 +12,7 @@ require 'vendor/autoload.php';
 
 $container = require 'config/container.php';
 
-$request = Zend\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 $strategy = (new Corvus\Core\ApplicationStrategy)->setContainer($container);
 $router = (new League\Route\Router)->setStrategy($strategy);
 
