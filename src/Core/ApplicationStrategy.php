@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 use Throwable;
 
@@ -32,9 +32,7 @@ class ApplicationStrategy extends AbstractStrategy implements ContainerAwareInte
         $controller = $route->getCallable($this->getContainer());
 
         $response = $controller($request, $route->getVars());
-        $response = $this->applyDefaultResponseHeaders($response);
-
-        return $response;
+        return $this->decorateResponse($response);
     }
 
     /**

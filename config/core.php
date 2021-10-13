@@ -22,5 +22,4 @@ return [
 
         return $logger;
     }),
-
 ];

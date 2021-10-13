@@ -18,7 +18,7 @@ class AuthPayloadMiddleware implements MiddlewareInterface
     {
         $helper = new Request();
         $payload = $helper->getTokenPayload($request, 'jwt');
-        
+      
         if ($payload){
             $request = $request->withAttribute('payload', $payload);
         }
