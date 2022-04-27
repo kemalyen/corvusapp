@@ -19,7 +19,7 @@
         "doctrine/annotations": "^1.7",
         "league/fractal": "^0.18.0",
         "rbdwllr/psr-jwt": "^0.3.0",
-        "doctrine/orm": "^2.9",
+        "doctrine/orm": "^2.12",
         "mezzio/mezzio-helpers": "^5.3",
         "symfony/validator": "^5.0",
         "monolog/monolog": "^2.0",
@@ -30,9 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Corvus\\": "src/",
-            "Corvus\\Core\\": "src/Core",
-            "Corvus\\Catalogue\\": "src/Modules/Catalogue"
+            "Corvus\\": "src/"
         }
     },
     "require-dev": {

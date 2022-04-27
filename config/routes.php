@@ -5,10 +5,10 @@ return function (Corvus\Core\Application $app, DI\Container $container): void {
 
     // User management
     $app->router->map('POST', '/register', 'Corvus\Controllers\UserController::register');
+    $app->router->map('POST', '/get-token', 'Corvus\Controllers\UserController::get_token');
 
     $app->router->group('/', function (\League\Route\RouteGroup $route) use ($app) {
 
-        $route->map('POST', '/get-token', 'Corvus\Controllers\UserController::get_token');
         $route->map('GET', '/me', 'Corvus\Controllers\UserController::me');
 
         $route->map('GET', '/orders/list', 'Corvus\Controllers\OrderController::index');

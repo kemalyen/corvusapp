@@ -7,7 +7,6 @@ use Corvus\Entities\User;
 use Laminas\Diactoros\Response\JsonResponse;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
-use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -43,7 +42,7 @@ class UserController extends BaseController
 
         if (!$auth->getMessage()) {
             throw new Exception("Unauthorized request", 403);
-        }
+        }//
 
         $payload = $request->getAttribute('payload');
 

@@ -17,22 +17,49 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 use Laminas\Diactoros\Response\JsonResponse;
-
+use League\Route\Strategy\ApplicationStrategy as LeagueApplicationStrategy;
 use Throwable;
 
-class ApplicationStrategy extends AbstractStrategy implements ContainerAwareInterface
+class ApplicationStrategy extends LeagueApplicationStrategy
 {
-    use ContainerAwareTrait;
-
     /**
      * {@inheritdoc}
+     * @throws \ReflectionException
      */
     public function invokeRouteCallable(Route $route, ServerRequestInterface $request): ResponseInterface
     {
         $controller = $route->getCallable($this->getContainer());
 
-        $response = $controller($request, $route->getVars());
-        return $this->decorateResponse($response);
+        $reflection = new \ReflectionMethod($controller[0], $controller[1]);
+        $methodParams = $reflection->getParameters();
+
+        // Initialize the array of resolved method dependencies
+        $resolvedParams = [
+            $request,
+            $route->getVars(),
+        ];
+
+        // Remove two first params from array of the method dependencies to resolution
+        // because the two first it's already resolved and defined in $resolvedParams initialization
+        $methodParams = array_slice($methodParams, 2);
+
+        // Resolve the dependencies
+        foreach ($methodParams as $methodParam) {
+            if ($methodParam->getClass()) {
+                $resolvedParams[] = $this->getContainer()->get($methodParam->getClass()->getName());
+            } else {
+                $resolvedParams[] = $this->getContainer()->get($methodParam->getName());
+            }
+
+        }
+
+        // Call the method
+        $response = $controller(...$resolvedParams);
+
+        //$response = $this->applyDefaultResponseHeaders($response);
+        $response = $this->decorateResponse($response);
+
+        return $response;
     }
 
     /**

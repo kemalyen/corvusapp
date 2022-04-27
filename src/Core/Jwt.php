@@ -5,10 +5,6 @@ namespace Corvus\Core;
 class Jwt
 {
     /**
-     * @var EntityManager;
-     */
-    private $entityManager;
-    /**
      * {@inheritdoc}
      */
     public static function create($email, $jwt_secret)

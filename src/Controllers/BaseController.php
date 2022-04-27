@@ -7,9 +7,9 @@ use Laminas\Diactoros\Response\JsonResponse;
 
 class BaseController
 {
-    public function view(array $data): JsonResponse
+    public function view(string|array $data, int $status = 200): JsonResponse
     {
-        return new JsonResponse($data, 200, ['Content-Type' => ['application/hal+json']]);
+        return new JsonResponse($data, $status, ['Content-Type' => ['application/hal+json']]);
     }
 
     public function render(string $filename, array $data): HtmlResponse

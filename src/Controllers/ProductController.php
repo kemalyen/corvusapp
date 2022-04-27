@@ -2,14 +2,14 @@
 
 namespace Corvus\Controllers;
 
-use Corvus\Entity\Product;
 use Corvus\Resources\ProductTransformer;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
+use Psr\Container\ContainerInterface;
+use Corvus\Services\ProductService;
 
 class ProductController extends BaseController
 {
@@ -18,7 +18,7 @@ class ProductController extends BaseController
      * @var Corvus\Services\ProductService
      */
     private $productService;
-
+ 
     /**
      * List products
      *
@@ -45,6 +45,7 @@ class ProductController extends BaseController
     public function show(ServerRequestInterface $request, array $args): JsonResponse
     {
         $product = $this->productService->getProduct((int) $args['id']);
+        if (empty($product)) return $this->view('No products found', 404); 
         $resource = new Item($product, new ProductTransformer);
         $fractal = new Manager();
         $data = $fractal->createData($resource)->toArray();

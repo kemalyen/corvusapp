@@ -2,14 +2,12 @@
 
 namespace Corvus\Controllers;
 
-use Corvus\Entities\Order;
 use Corvus\Resources\OrderTransformer;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 class OrderController extends BaseController
 {
