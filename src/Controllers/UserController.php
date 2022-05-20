@@ -10,6 +10,7 @@ use League\Fractal\Resource\Item;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Corvus\Services\UserService;
 
 class UserController extends BaseController
 {
@@ -17,17 +18,18 @@ class UserController extends BaseController
      * @Inject
      * @var Corvus\Services\UserService
      */
-    private $userService;
+    public $userService;
 
     /**
+     * @Inject
      * @var Psr\Container\ContainerInterface
      */
-    private $container;
+    public $container;    
 
-    public function __construct(ContainerInterface $container)
+/*     function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
+    } */
 
     /**
      * Controller.

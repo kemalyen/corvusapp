@@ -13,7 +13,8 @@ require 'vendor/autoload.php';
 $container = require 'config/container.php';
 
 $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
-$strategy = (new Corvus\Core\ApplicationStrategy)->setContainer($container);
+$strategy = (new League\Route\Strategy\ApplicationStrategy())->setContainer($container);
+
 $router = (new League\Route\Router)->setStrategy($strategy);
 
 $app = $container->get('Corvus\Core\Application');

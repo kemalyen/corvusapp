@@ -13,4 +13,10 @@ class IndexController extends BaseController
         $data = ['time' => time()];
         return $this->view($data);
     }
+
+    public function test(ServerRequestInterface $request): JsonResponse
+    {
+        $data = ['test time' => time()];
+        return $this->view($data);
+    }
 }

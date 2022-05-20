@@ -2,6 +2,7 @@
 
 return function (Corvus\Core\Application $app, DI\Container $container): void {
     $app->router->map('GET', '/', 'Corvus\Controllers\IndexController::index');
+    $app->router->map('GET', '/test', 'Corvus\Controllers\IndexController::test');
 
     // User management
     $app->router->map('POST', '/register', 'Corvus\Controllers\UserController::register');

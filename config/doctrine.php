@@ -8,13 +8,9 @@ return [
         ->parameter('connection', DI\get('db.params'))
         ->parameter('config', DI\get('doctrine.config')),
 
-    'db.params' => [
-        'driver' => DI\get('DB_DRIVER'),
-        'user' => DI\get('DB_USERNAME'),
-        'password' => DI\get('DB_PASSWORD'),
-        'dbname' => DI\get('DB_DATABASE'),
-        'host' => DI\get('DB_HOST'),
-    ],
+        'db.params' => [
+            'url' => 'sqlite:///var/db.sqlite',
+        ],
 
     'doctrine.config' =>
     Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/../src/Entities"), true, null, null, false),
