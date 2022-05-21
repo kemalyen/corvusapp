@@ -67,7 +67,7 @@ class UserController extends BaseController
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
-     * @return \Zend\Diactoros\Response\JsonResponse
+     * @return \Laminas\Diactoros\Response\JsonResponse
      */
     public function get_token(ServerRequestInterface $request): JsonResponse
     {

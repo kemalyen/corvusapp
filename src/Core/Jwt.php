@@ -10,7 +10,7 @@ class Jwt
     public static function create($email, $jwt_secret)
     {
         $factory = new \PsrJwt\Factory\Jwt();
-
+         
         $builder = $factory->builder();
         $token = $builder->setSecret($jwt_secret)
             ->setPayloadClaim('email', $email)

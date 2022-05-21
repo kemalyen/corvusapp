@@ -61,9 +61,11 @@ class OrderController extends BaseController
      */
     public function create(ServerRequestInterface $request, array $args): JsonResponse
     {
+        $payload = $request->getAttribute('payload');
+        
         $body = $request->getParsedBody();
         $this->orderService->create($body);
-        $data = ['message' => 'sucess'];
+        $data = ['message' => 'sucess', 'email' => $payload['email']];
         return $this->view($data);
     }
 }

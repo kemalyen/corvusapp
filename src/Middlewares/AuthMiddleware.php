@@ -24,7 +24,6 @@ class AuthMiddleware extends Authorise implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         $auth = $this->authorise($request);
-         
         $request = $request->withAttribute('auth', $auth);
         $response = $handler->handle($request);
         return $response;  

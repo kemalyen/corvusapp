@@ -9,9 +9,10 @@ return [
         ->parameter('config', DI\get('doctrine.config')),
 
         'db.params' => [
+            'driver'   => 'pdo_sqlite',
             'url' => 'sqlite:///var/db.sqlite',
         ],
 
     'doctrine.config' =>
-    Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/../src/Entities"), true, null, null, false),
+    Setup::createAttributeMetadataConfiguration(array(__DIR__ . "/../src/Entities"), true, null, null, false),
 ];

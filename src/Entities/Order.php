@@ -2,72 +2,98 @@
 namespace Corvus\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Column;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="order_headers")
- */
+
+#[Entity]
+#[Table('orders')]
 class Order
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
-    /**
-     * @ORM\Column(type="string", unique=true)
-     */
-    protected $order_number;
+    #[Id]
+    #[Column, GeneratedValue]
+    private int $id;
 
-    /**
-     * @OneToMany(targetEntity="OrderLine", mappedBy="order", cascade={"persist", "remove"})
-     */
-    private $order_lines;
+    #[Column(name: 'order_number', unique: true)]
+    private string $orderNumber;    
 
-    public function getId()
+    #[Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private float $amount;
+
+    #[Column(name: 'created_at')]
+    private \DateTime $createdAt;
+
+    #[OneToMany(targetEntity: OrderedProduct::class, mappedBy: 'order', cascade: ['persist', 'remove'])]
+    private $ordered_products;
+
+    public function __construct()
+    {
+        $this->ordered_products = new ArrayCollection();
+    }
+
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getOrderNumber()
+    public function getAmount(): float
     {
-        return $this->order_number;
+        return $this->amount;
     }
 
-    public function setOrderNumber($order_number)
+    public function setAmount(float $amount): Order
     {
-        $this->order_number = $order_number;
-    }
+        $this->amount = $amount;
 
-    public function __construct() {
-        $this->order_lines = new ArrayCollection();
-    }
-
-    public function addOrderLine(OrderLine $order_line): self
-    {
-        $this->order_lines->add($order_line); 
-        $order_line->setOrder($this);
         return $this;
     }
 
-    public function addOrderLines(array $lines): self
+    public function getOrderNumber(): string
     {
-        foreach($lines as $line){
-            $order_line = new OrderLine($line['sku'], null, $line['quantity'], $line['amount']);
-            $this->addOrderLine($order_line);
-        }
+        return $this->orderNumber;
+    }
+
+    public function setOrderNumber(string $orderNumber): Order
+    {
+        $this->orderNumber = $orderNumber;
+
+        return $this;
+    }
+ 
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt): Order
+    {
+        $this->createdAt = $createdAt;
+
         return $this;
     }
 
     /**
-     * Get the value of order_lines
-     */ 
-    public function getOrderLines()
+     * @return Collection<OrderedProduct>
+     */
+    public function getOrderedProduct(): Collection
     {
-        return $this->order_lines;
+        return $this->items;
+    }
+
+    public function addOrderedProduct(OrderedProduct $item): Order
+    {
+        $item->setOrder($this);
+
+        $this->ordered_products->add($item);
+
+        return $this;
     }
 }

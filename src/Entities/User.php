@@ -9,33 +9,31 @@ use Corvus\Exceptions\UniqueUserEmailException;
 use Doctrine\ORM\HasLifecycleCallbacks;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
-/**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="users",uniqueConstraints={@ORM\UniqueConstraint(name="unique_email", fields={"email"})})
- */
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Column;
+
+ 
+#[Entity]
+#[Table('users')]
 class User
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
+    #[Id]
+    #[Column, GeneratedValue]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\Email
-     */
-    protected $email;
+    #[Column(name: 'email', unique: true)]
+    protected string $email;
 
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    private $password;
+    #[Column]
+    private string $password;
 
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -43,7 +41,7 @@ class User
     /**
      * Get the value of email
      */ 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -53,7 +51,7 @@ class User
      *
      * @return  self
      */ 
-    public function setEmail($email)
+    public function setEmail($email): User
     {
         $this->email = $email;
 
@@ -63,7 +61,7 @@ class User
     /**
      * Get the value of password
      */ 
-    public function getPassword()
+    public function getPassword(): User
     {
         return $this->password;
     }
@@ -73,7 +71,7 @@ class User
      *
      * @return  self
      */ 
-    public function setPassword($password)
+    public function setPassword($password): User
     {
         $this->password = $password;
 

@@ -1,30 +1,27 @@
 <?php
 namespace Corvus\Entities;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Column;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="products")
- */
+#[Entity]
+#[Table('products')]
 class Product
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $id;
+    #[Id]
+    #[Column, GeneratedValue]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $sku;
+    #[Column(name: 'sku', unique: true)]
+    protected string  $sku;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $title;
+    #[Column]
+    protected string $description;
 
     public function getId()
     {
@@ -34,9 +31,9 @@ class Product
     /**
      * Get the value of title
      */ 
-    public function getTitle()
+    public function getDescriptione() : string
     {
-        return $this->title;
+        return $this->description;
     }
 
     /**
@@ -44,9 +41,9 @@ class Product
      *
      * @return  self
      */ 
-    public function setTitle($title)
+    public function setDescription($description): Product
     {
-        $this->title = $title;
+        $this->description = $description;
 
         return $this;
     }
@@ -54,7 +51,7 @@ class Product
     /**
      * Get the value of sku
      */ 
-    public function getSku()
+    public function getSku(): string
     {
         return $this->sku;
     }
@@ -64,7 +61,7 @@ class Product
      *
      * @return  self
      */ 
-    public function setSku($sku)
+    public function setSku($sku): Product
     {
         $this->sku = $sku;
 
