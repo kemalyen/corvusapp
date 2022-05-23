@@ -2,17 +2,15 @@
 namespace Corvus\Resources;
 
 use Corvus\Entities\Order;
-use Corvus\Entities\OrderLine;
 use League\Fractal;
 
 class OrderTransformer extends Fractal\TransformerAbstract
 {
+    protected array $availableIncludes = [
+        'ordered_products'
+    ]; 
 
-    protected $availableIncludes = [
-        'order_lines'
-    ];
-
-	public function transform(Order $order)
+	public function transform(Order $order): array
 	{
         return [
             'id'      => (int) $order->getId(),
@@ -26,10 +24,9 @@ class OrderTransformer extends Fractal\TransformerAbstract
         ];
 	}
 
-    public function includeOrderLines(Order $order)
+    public function includeOrderedProducts(Order $order)
     {
-        $order_lines = $order->GetOrderLines();
-
-        return $this->Collection($order_lines, new OrderLineTransformer);
+        $order_lines = $order->getOrderedProducts();
+        return $this->collection($order_lines, new OrderLineTransformer());
     }
 }

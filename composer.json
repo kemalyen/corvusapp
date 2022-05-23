@@ -18,7 +18,7 @@
         "league/route": "^5.1",
         "php-di/php-di": "^6.4",
         "doctrine/annotations": "^1.7",
-        "league/fractal": "^0.18.0",
+        "league/fractal": "^0.20.1",
         "rbdwllr/psr-jwt": "^0.3.0",
         "doctrine/orm": "^2.12",
         "mezzio/mezzio-helpers": "^5.3",

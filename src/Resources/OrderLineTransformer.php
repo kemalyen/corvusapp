@@ -1,21 +1,19 @@
 <?php
 namespace Corvus\Resources;
 
-use Corvus\Entities\Order;
-use Corvus\Entities\OrderLine;
+use Corvus\Entities\OrderedProduct;
 use League\Fractal;
 
 class OrderLineTransformer extends Fractal\TransformerAbstract
 {
-	public function transform(OrderLine $order)
+	public function transform(OrderedProduct $orderedProduct): array
 	{
         return [
-            'id'      => (int) $order->getId(),
-            'sku'   => $order->getSku(),
-            'title'   => $order->getTitle(),
-            'quantity'   => $order->getQuantity(),
-            'amount'   => $order->getAmount(),
-            
+            'id'      => (int) $orderedProduct->getId(),
+            'sku'   => $orderedProduct->getSku(),
+            'description'   => $orderedProduct->getDescription(),
+            'quantity'   => $orderedProduct->getQuantity(),
+            'unit_price'   => $orderedProduct->getUnitPrice(),
         ];
 	}
 }

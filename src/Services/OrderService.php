@@ -26,7 +26,7 @@ class OrderService
 
     public function getOrders()
     {
-        $orders = $this->entityManager->getRepository(Order::class)->findBy(array());
+        $orders = $this->entityManager->getRepository(Order::class)->findAll();
         return $orders;
     }
 

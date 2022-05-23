@@ -18,6 +18,11 @@ class OrderController extends BaseController
     private $orderService;
 
     /**
+     * @Inject
+     * @var Psr\Log\LoggerInterface
+    */    
+    private $logger;
+    /**
      * List Orders
      *
      * @param ServerRequestInterface $request
@@ -27,11 +32,9 @@ class OrderController extends BaseController
     public function index(ServerRequestInterface $request, array $args): JsonResponse
     {
         $orders = $this->orderService->getOrders();
-        $resource = new Collection($orders, new OrderTransformer);
         $fractal = new Manager();
-        $fractal->parseIncludes('order_lines');
+        $resource = new Collection($orders, new OrderTransformer);
         $data = $fractal->createData($resource)->toArray();
-
         return $this->view($data);
     }
 
@@ -47,7 +50,7 @@ class OrderController extends BaseController
         $order = $this->orderService->getOrder($args['id']);
         $resource = new Item($order, new OrderTransformer);
         $fractal = new Manager();
-        $fractal->parseIncludes('order_lines');
+        $fractal->parseIncludes('ordered_products');
         $data = $fractal->createData($resource)->toArray();
         return $this->view($data);
     }
@@ -62,10 +65,10 @@ class OrderController extends BaseController
     public function create(ServerRequestInterface $request, array $args): JsonResponse
     {
         $payload = $request->getAttribute('payload');
-        
+        $this->logger->info('This is a an order inserted at '. time());
         $body = $request->getParsedBody();
         $this->orderService->create($body);
-        $data = ['message' => 'sucess', 'email' => $payload['email']];
+        $data = ['message' => 'sucess'];
         return $this->view($data);
     }
 }

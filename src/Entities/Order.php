@@ -83,9 +83,9 @@ class Order
     /**
      * @return Collection<OrderedProduct>
      */
-    public function getOrderedProduct(): Collection
+    public function getOrderedProducts(): Collection
     {
-        return $this->items;
+        return $this->ordered_products;
     }
 
     public function addOrderedProduct(OrderedProduct $item): Order

@@ -23,7 +23,8 @@ class AuthPayloadMiddleware implements MiddlewareInterface
         if ($payload){
             $request = $request->withAttribute('payload', $payload);
         }else{
-            return new JsonResponse('Auth failed!', 403, ['Content-Type' => ['application/hal+json']]);
+            $auth = $request->getAttribute('auth');
+            return new JsonResponse($auth->getMessage(), 403, ['Content-Type' => ['application/hal+json']]);
         }
         $response = $handler->handle($request);
         return $response;

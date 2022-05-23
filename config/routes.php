@@ -22,6 +22,5 @@ return function (Corvus\Core\Application $app, DI\Container $container): void {
         ->middlewares([
             $container->get('Corvus\Middlewares\AuthMiddleware'),
             $container->get('Corvus\Middlewares\AuthPayloadMiddleware'),
-            
         ]);
 };
